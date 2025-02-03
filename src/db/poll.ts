@@ -1,15 +1,17 @@
+import { unstable_cache } from "next/cache"
 import prisma from "./prisma"
+import { cache } from "react"
 
-export const getPollsByUser = (userid: number) => {
+export const getPollsByUser = unstable_cache(cache((userid: number) => {
 	return prisma.poll.findMany({ where: { userId: userid } })
-}
+}))
 
-export const getPollWithChoices = (pollid: string) => {
+export const getPollWithChoices = unstable_cache(cache((pollid: string) => {
 	return prisma.poll.findUnique({
 		where: { id: pollid },
 		include: { choices: true }
 	})
-}
+}))
 
 export const createPoll = (userid: number, title: string, options: string[]) => {
 	return prisma.poll.create({
@@ -45,7 +47,7 @@ export const createPollAndUser = (title: string, options: string[]) => {
 }
 
 
-export const getPollResults = (id: string) => {
+export const getPollResults = unstable_cache(cache((id: string) => {
 	return prisma.poll.findUnique({
 		where: { id },
 		include: {
@@ -56,6 +58,6 @@ export const getPollResults = (id: string) => {
 			}
 		}
 	})
-}
+}))
 
 export const deletePoll = (where: { id: string, userId: number }) => prisma.poll.delete({ where: where })

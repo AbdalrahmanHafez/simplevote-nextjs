@@ -3,6 +3,7 @@ import { createPoll, createPollAndUser, deletePoll, getPollResults, getPollsByUs
 import { createVote, createVoteAndUser } from "@/db/vote";
 import { getSessionData, setSession } from "@/utils";
 import { Poll, Prisma } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 import { forbidden, notFound, redirect, } from "next/navigation"
 
 
@@ -22,6 +23,8 @@ export const createPoll_Action = async (prevState: unknown, data: { title: strin
 		createdPoll = await createPollAndUser(title, options)
 		setSession({ userid: createdPoll.userId })
 	}
+
+	revalidatePath('/poll/mine')
 
 	return redirect(`/poll/${createdPoll.id}`)
 };
@@ -49,12 +52,13 @@ export const votePoll_Action = async (prevState: unknown, data: { pollid: string
 		setSession({ userid: vote.user.id })
 	}
 
+	revalidatePath(`/poll/${pollid}/results`)
 	return { success: "Vote submitted" }
 }
 
 export const getPollResults_Action = async (pollid: string) => {
 	const results = (await getPollResults(pollid))!
-	return results.choices.map(c => ({ "id": c.id, "optionText": c.optionText, "votes": c.votes.length }))
+	return results.choices.map(c => ({ "id": c.id, "optionText": c.optionText, "votes": c.votes?.length | 0 }))
 }
 
 export const getUserPolls_Action = async () => {
@@ -85,6 +89,9 @@ export const deletePoll_Action = async (pollid: string) => {
 			&& error.code === 'P2025'
 		) return notFound();
 	}
+
+	revalidatePath('/poll/mine')
+	revalidatePath('/poll/' + pollid)
 
 	return redirect("/poll/mine/");
 }

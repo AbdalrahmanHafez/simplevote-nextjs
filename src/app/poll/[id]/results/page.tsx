@@ -1,5 +1,3 @@
-import { getPollWithChoices } from "@/db/poll";
-import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getPollResults_Action } from "@/Actions/poll";
 
