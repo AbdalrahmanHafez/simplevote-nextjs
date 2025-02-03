@@ -98,5 +98,5 @@ export const deletePoll_Action = async (pollid: string) => {
 	revalidatePath('/poll/mine')
 	revalidatePath('/poll/' + pollid)
 
-	return redirect("/poll/mine/");
+	return redirect("/poll/mine");
 }

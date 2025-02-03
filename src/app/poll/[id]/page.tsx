@@ -1,8 +1,7 @@
 import { getPollWithChoices } from "@/db/poll";
 import { notFound } from "next/navigation";
 import VoteForm from "./VoteForm";
-import Link from "next/link";
-import { deletePoll_Action } from "@/Actions/poll";
+import { getSessionData } from "@/utils";
 
 export default async function Poll({
   params: paramsPromise,
@@ -14,19 +13,17 @@ export default async function Poll({
   const poll = await getPollWithChoices(id);
   if (poll === null) return notFound();
 
+  const isAuthor =
+    ((await getSessionData()) as { userid: number })?.userid === poll.userId ||
+    false;
+
   return (
-    <div className="">
-      <h1>Poll Page</h1>
-
-      {/* form to subimt the vote choice */}
-      <VoteForm poll={poll} />
-
-      <div>
-        <form action={deletePoll_Action.bind(null, poll.id)}>
-          <button type="submit">Delete Form</button>
-        </form>
-
-        <Link href={`/poll/${poll.id}/results`}>View results</Link>
+    <div className="flex justify-center items-center">
+      <div
+        className="bg-white mt-8 px-4 py-5 sm:p-6 box border rounded-md w-full md:max-w-[40rem]"
+        style={{ borderTopWidth: "4px", borderTopColor: "#2563EB" }}
+      >
+        <VoteForm poll={poll} isAuthor={isAuthor} />
       </div>
     </div>
   );
