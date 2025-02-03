@@ -52,13 +52,18 @@ export const votePoll_Action = async (prevState: unknown, data: { pollid: string
 		setSession({ userid: vote.user.id })
 	}
 
+
+	revalidatePath(`/api/poll/${pollid}`)
+
 	revalidatePath(`/poll/${pollid}/results`)
+
 	return { success: "Vote submitted" }
 }
 
 export const getPollResults_Action = async (pollid: string) => {
 	const results = (await getPollResults(pollid))!
-	return results.choices.map(c => ({ "id": c.id, "optionText": c.optionText, "votes": c.votes?.length | 0 }))
+	// return results.choices.map(c => ({ "id": c.id, "optionText": c.optionText, "votes": c.votes?.length | 0 }))
+	return results
 }
 
 export const getUserPolls_Action = async () => {

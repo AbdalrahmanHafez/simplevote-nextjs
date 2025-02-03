@@ -58,6 +58,11 @@ export const getPollResults = unstable_cache(cache((id: string) => {
 			}
 		}
 	})
-}))
+})
+
+
+)
+
+// ["getPollResults"]
 
 export const deletePoll = (where: { id: string, userId: number }) => prisma.poll.delete({ where: where })
