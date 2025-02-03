@@ -35,7 +35,7 @@ export default function ResultsBox({
             <p className="text-xl">{c.optionText}</p>
             <p>
               {c.votes?.length | 0} (
-              {(((c.votes?.length | 0) * 100) / totalVotes).toFixed(1)}%)
+              {(((c.votes?.length | 0) * 100) / totalVotes || 0).toFixed(1)}%)
             </p>
           </div>
         ))}
