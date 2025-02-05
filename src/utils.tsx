@@ -33,3 +33,7 @@ export const getSessionData = async () => {
     return null;
   }
 };
+
+export const wait = (ms: number) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
