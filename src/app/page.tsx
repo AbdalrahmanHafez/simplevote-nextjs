@@ -11,7 +11,7 @@ export default async function Home() {
               <Image
                 className="h-full w-full object-cover"
                 src="/hero-background.png"
-                alt="StrawPoll Splash Image"
+                alt="Hero background"
                 layout="fill"
                 objectFit="cover"
               />

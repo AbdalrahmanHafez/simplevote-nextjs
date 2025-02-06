@@ -4,6 +4,36 @@ import VoteForm from "./VoteForm";
 import { getSessionData } from "@/utils";
 import { Suspense } from "react";
 import { Skeleton, SkeletonButton, SkeletonList } from "@/components/Skeleton";
+import type { Metadata, ResolvingMetadata } from "next";
+
+type MetaDataProps = {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+export async function generateMetadata(
+  { params }: MetaDataProps,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const id = (await params).id;
+
+  const poll = await getPollWithChoices(id);
+
+  const previousImages = (await parent).openGraph?.images || [];
+
+  const title = `Vote on ${poll?.title}`;
+  const description = `choose between ${poll?.choices
+    .map((c) => c.optionText)
+    .join(", ")}`;
+  return {
+    title: title,
+    description: description,
+    openGraph: {
+      title: title,
+      description: description,
+      images: [...previousImages],
+    },
+  };
+}
 
 type PollProps = {
   params: Promise<{ id: string }>;

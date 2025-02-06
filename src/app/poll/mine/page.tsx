@@ -1,7 +1,13 @@
 import { getUserPolls_Action } from "@/Actions/poll";
 import { Skeleton } from "@/components/Skeleton";
+import { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "My polls/votes",
+  description: "list of polls created by you",
+};
 
 export default function PollsMine() {
   return (

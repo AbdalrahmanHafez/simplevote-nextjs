@@ -13,7 +13,9 @@ export default function Navbar() {
       <div className="ml-5 leading-[1] flex gap-4 text-[1.2rem]">
         <Link href="/">Home</Link>
         <Link href="/poll/create">Create poll</Link>
-        <Link href="/poll/mine">My Polls</Link>
+        <Link href="/poll/mine" prefetch={true}>
+          My Polls
+        </Link>
       </div>
     </div>
   );
