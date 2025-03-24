@@ -8,7 +8,7 @@ anyone without registering or an account can create a poll(vote), and anyone can
 
 this is a practice project using nextjs.
 
-# live demo: simplevote.vercel.app
+## live demo: https://simplevote.vercel.app
 
 # Screenshots
 ![chrome_CfgH5ss478](https://github.com/user-attachments/assets/b8ead4a5-b85c-40d8-b0ea-2f3f170f3935)
